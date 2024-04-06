@@ -1,5 +1,5 @@
 {
-  "name": "algorithms-and-data-structures",
+  "name": "interpreter",
   "version": "1.0.0",
   "description": "Studying algorithms and data structures",
   "main": "index.js",
