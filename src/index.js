@@ -1,11 +1,23 @@
 const assert = require('assert');
 
+const Environment = require('./Environment');
+
 /**
  * Eva interpreter.
  */
 
 class Eva {
-  eval(exp) {
+  /**
+   * Creates an Eva instance with the global environment.
+   */
+  constructor(global = new Environment()) {
+    this.global = global;
+  }
+
+  /**
+   * Evaluates an expression in the given environment.
+   */
+  eval(exp, env = this.global) {
     // ------------------------------------------------------------
     // Self-evaluating expressions:
 
@@ -16,6 +28,9 @@ class Eva {
     if (isString(exp)) {
       return exp.slice(1, -1);
     }
+
+    // ------------------------------------------------------------
+    // Math operations:
 
     if (exp[0] === '+') {
       return this.eval(exp[1]) + this.eval(exp[2]);
@@ -33,6 +48,19 @@ class Eva {
       return this.eval(exp[1]) / this.eval(exp[2]);
     }
 
+    // ------------------------------------------------------------
+    // Variable declaration:
+    if (exp[0] === 'var') {
+      const [_, name, value] = exp;
+      return env.define(name, value);
+    }
+
+    // ------------------------------------------------------------
+    // Variable access:
+    if (isVariableName(exp)) {
+      return env.lookup(exp);
+    }
+
     throw `Unimplemented: ${JSON.stringify(exp)}`;
   }
 }
@@ -43,6 +71,10 @@ function isNumber(exp) {
 
 function isString(exp) {
   return typeof exp === 'string' && exp[0] === '"' && exp.slice(-1) === '"';
+}
+
+function isVariableName(exp) {
+  return typeof exp === 'string' && /^[a-zA-Z][a-zA-Z0-9_]*$/.test(exp);
 }
 
 // ------------------------------------------------------------
@@ -64,5 +96,8 @@ assert.strictEqual(eva.eval(['/', 12, 4]), 3);
 
 // Set expressions
 assert.strictEqual(eva.eval(['var', 'x', 10]), 10);
+assert.strictEqual(eva.eval('x'), 10);
+assert.strictEqual(eva.eval(['var', 'y', 100]), 100);
+assert.strictEqual(eva.eval('y'), 100);
 
 console.log('\x1b[32m', 'All assertions passed!');
