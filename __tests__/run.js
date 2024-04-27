@@ -6,6 +6,7 @@ const tests = [
   require('./math-test'),
   require('./variables-test'),
   require('./block-test'),
+  require('./if-test'),
 ];
 
 // ------------------------------------------------------------
@@ -22,6 +23,6 @@ const eva = new Eva(
   })
 );
 
-tests.forEach(test => test(eva));
+tests.forEach((test) => test(eva));
 
 console.log('\x1b[32m', 'All assertions passed!');
