@@ -80,14 +80,16 @@ function isVariableName(exp) {
 // ------------------------------------------------------------
 // Tests:
 
-const eva = new Eva(new Environment({
-  null: null,
+const eva = new Eva(
+  new Environment({
+    null: null,
 
-  true: true,
-  false: false,
+    true: true,
+    false: false,
 
-  VERSION: '0.1',
-}));
+    VERSION: '0.1',
+  })
+);
 
 assert.strictEqual(eva.eval(1), 1);
 assert.strictEqual(eva.eval(42), 42);

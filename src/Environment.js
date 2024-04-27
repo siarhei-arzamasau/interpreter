@@ -1,6 +1,6 @@
 /*
-** Environment: names storage.
-*/
+ ** Environment: names storage.
+ */
 
 class Environment {
   /**
@@ -11,8 +11,8 @@ class Environment {
   }
 
   /**
-     * Creates a variable with the given name and value.
-     */
+   * Creates a variable with the given name and value.
+   */
   define(name, value) {
     this.record[name] = value;
     return value;
