@@ -10,8 +10,9 @@ class Eva {
   /**
    * Creates an Eva instance with the global environment.
    */
-  constructor(global = new Environment()) {
+  constructor(global = new Environment(), parent = null) {
     this.global = global;
+    this.parent = parent;
   }
 
   /**
@@ -33,35 +34,61 @@ class Eva {
     // Math operations:
 
     if (exp[0] === '+') {
-      return this.eval(exp[1]) + this.eval(exp[2]);
+      return this.eval(exp[1], env) + this.eval(exp[2], env);
     }
 
     if (exp[0] === '-') {
-      return this.eval(exp[1]) - this.eval(exp[2]);
+      return this.eval(exp[1], env) - this.eval(exp[2], env);
     }
 
     if (exp[0] === '*') {
-      return this.eval(exp[1]) * this.eval(exp[2]);
+      return this.eval(exp[1], env) * this.eval(exp[2], env);
     }
 
     if (exp[0] === '/') {
-      return this.eval(exp[1]) / this.eval(exp[2]);
+      return this.eval(exp[1], env) / this.eval(exp[2], env);
     }
 
     // ------------------------------------------------------------
-    // Variable declaration:
+    // Block: sequence of expressions
+    if (exp[0] === 'begin') {
+      const blockEnv = new Environment({}, env);
+      return this._evalBlock(exp, blockEnv);
+    }
+
+    // ------------------------------------------------------------
+    // Variable declaration: (var foo 10)
     if (exp[0] === 'var') {
       const [_, name, value] = exp;
-      return env.define(name, this.eval(value));
+      return env.define(name, this.eval(value, env));
     }
 
     // ------------------------------------------------------------
-    // Variable access:
+    // Variable update: (set foo 10)
+    if (exp[0] === 'set') {
+      const [_, name, value] = exp;
+      return env.assign(name, this.eval(value, env));
+    }
+
+    // ------------------------------------------------------------
+    // Variable access: foo
     if (isVariableName(exp)) {
       return env.lookup(exp);
     }
 
     throw `Unimplemented: ${JSON.stringify(exp)}`;
+  }
+
+  _evalBlock(block, env) {
+    let result;
+
+    const [_tag, ...expression] = block;
+
+    expression.forEach((exp) => {
+      result = this.eval(exp, env);
+    });
+
+    return result;
   }
 }
 
@@ -103,7 +130,7 @@ assert.strictEqual(eva.eval(['*', 3, 5]), 15);
 assert.strictEqual(eva.eval(['/', 16, 4]), 4);
 assert.strictEqual(eva.eval(['/', 12, 4]), 3);
 
-// Set expressions
+// Variables
 assert.strictEqual(eva.eval(['var', 'x', 10]), 10);
 assert.strictEqual(eva.eval('x'), 10);
 assert.strictEqual(eva.eval(['var', 'y', 100]), 100);
@@ -113,5 +140,22 @@ assert.strictEqual(eva.eval(['var', 'isUser', 'true']), true);
 assert.strictEqual(eva.eval('isUser'), true);
 assert.strictEqual(eva.eval(['var', 'z', ['*', 2, 2]]), 4);
 assert.strictEqual(eva.eval('z'), 4);
+
+// Blocks:
+assert.strictEqual(eva.eval(['begin', ['var', 'x', 10], ['var', 'y', 20], ['+', ['*', 'x', 'y'], 30]]), 230);
+
+assert.strictEqual(eva.eval(['begin', ['var', 'x', 10], ['begin', ['var', 'x', 20], 'x'], 'x']), 10);
+
+assert.strictEqual(
+  eva.eval([
+    'begin',
+    ['var', 'value', 10],
+    ['var', 'result', ['begin', ['var', 'x', ['+', 'value', 10]], 'x']],
+    'result',
+  ]),
+  20
+);
+
+assert.strictEqual(eva.eval(['begin', ['var', 'data', 10], ['begin', ['set', 'data', 100]], 'data']), 100);
 
 console.log('\x1b[32m', 'All assertions passed!');
