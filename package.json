@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./src/index.js",
-    "test": "node ./__tests__/run.js"
+    "test": "node ./__tests__/run.js",
+    "parser": "syntax-cli --grammar parser/eva-grammar.bnf --mode LALR1 --output parser/evaParser.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "prettier": "3.2.5"
+  },
+  "dependencies": {
+    "syntax-cli": "^0.1.27"
   }
 }
