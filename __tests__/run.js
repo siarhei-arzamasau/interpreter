@@ -8,6 +8,7 @@ const tests = [
   require('./if-test'),
   require('./while-test'),
   require('./built-in-function-test'),
+  require('./user-defined-functions-test'),
 ];
 
 // ------------------------------------------------------------
@@ -17,6 +18,6 @@ const eva = new Eva();
 
 tests.forEach((test) => test(eva));
 
-eva.eval(['print', '"Hello"', '"World!"']);
+// eva.eval(['print', '"Hello"', '"World!"']);
 
 console.log('\x1b[32m', 'All assertions passed!');
