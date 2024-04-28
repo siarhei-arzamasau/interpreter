@@ -28,48 +28,6 @@ class Eva {
     }
 
     // ------------------------------------------------------------
-    // Math operations:
-
-    // if (exp[0] === '+') {
-    //   return this.eval(exp[1], env) + this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '-') {
-    //   return this.eval(exp[1], env) - this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '*') {
-    //   return this.eval(exp[1], env) * this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '/') {
-    //   return this.eval(exp[1], env) / this.eval(exp[2], env);
-    // }
-
-    // ------------------------------------------------------------
-    // Comparison operations:
-
-    // if (exp[0] === '>') {
-    //   return this.eval(exp[1], env) > this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '>=') {
-    //   return this.eval(exp[1], env) >= this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '<') {
-    //   return this.eval(exp[1], env) < this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '<=') {
-    //   return this.eval(exp[1], env) <= this.eval(exp[2], env);
-    // }
-
-    // if (exp[0] === '=') {
-    //   return this.eval(exp[1], env) === this.eval(exp[2], env);
-    // }
-
-    // ------------------------------------------------------------
     // Block: sequence of expressions
     if (exp[0] === 'begin') {
       const blockEnv = new Environment({}, env);
