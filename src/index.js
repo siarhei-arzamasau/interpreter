@@ -95,6 +95,17 @@ class Eva {
     }
 
     // ------------------------------------------------------------
+    // Switch-expression: (switch (cond1, block1) ... )
+    //
+    // Syntactic sugar for nested if-expressions
+    
+    if (exp[0] === 'switch') {
+      const ifExp = this._transformer.transformSwitchToIf(exp);
+
+      return this.eval(ifExp, env);
+    }
+
+    // ------------------------------------------------------------
     // Lambda function: (lambda (x) (* x x))
 
     if (exp[0] === 'lambda') {
