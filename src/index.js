@@ -150,6 +150,18 @@ class Eva {
     }
 
     // ------------------------------------------------------------
+    // Decrement: (+= foo inc)
+    //
+    // Syntactic sugar for: (set foo (- foo inc))
+
+    if (exp[0] === '-=') {
+      const setExp = this._transformer.transformDecValToSet(exp);
+
+      return this.eval(setExp, env);
+    }
+
+
+    // ------------------------------------------------------------
     // Lambda function: (lambda (x) (* x x))
 
     if (exp[0] === 'lambda') {
