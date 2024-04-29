@@ -133,7 +133,7 @@ class Eva {
     // Syntactic sugar for: (set foo (+ foo inc))
 
     if (exp[0] === '+=') {
-      const setExp = this._transformer.transformIncWithVariableToSet(exp);
+      const setExp = this._transformer.transformIncValToSet(exp);
 
       return this.eval(setExp, env);
     }

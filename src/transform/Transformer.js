@@ -49,7 +49,7 @@ class Transformer {
     return ['set', name, ['+', name, 1]];
   }
 
-  transformIncWithVariableToSet(setExp) {
+  transformIncValToSet(setExp) {
     const [_tag, name, variable] = setExp;
     return ['set', name, ['+', name, variable]];
   }
