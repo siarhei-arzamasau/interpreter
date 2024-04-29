@@ -12,6 +12,7 @@ const tests = [
   require('./lambda-function-test'),
   require('./switch-test'),
   require('./increment-test'),
+  require('./increment-with-variable-test'),
   require('./decrement-test'),
   require('./for-test'),
 ];

@@ -128,6 +128,17 @@ class Eva {
     }
 
     // ------------------------------------------------------------
+    // Increment: (+= foo inc)
+    //
+    // Syntactic sugar for: (set foo (+ foo inc))
+
+    if (exp[0] === '+=') {
+      const setExp = this._transformer.transformIncWithVariableToSet(exp);
+
+      return this.eval(setExp, env);
+    }
+
+    // ------------------------------------------------------------
     // Decrement: (-- foo)
     //
     // Syntactic sugar for: (set foo (- foo 1))
