@@ -11,6 +11,7 @@ const tests = [
   require('./user-defined-functions-test'),
   require('./lambda-function-test'),
   require('./switch-test'),
+  require('./increment-test'),
 ];
 
 // ------------------------------------------------------------

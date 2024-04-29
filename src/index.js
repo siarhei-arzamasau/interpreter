@@ -98,12 +98,23 @@ class Eva {
     // Switch-expression: (switch (cond1, block1) ... )
     //
     // Syntactic sugar for nested if-expressions
-    
+
     if (exp[0] === 'switch') {
       const ifExp = this._transformer.transformSwitchToIf(exp);
 
       return this.eval(ifExp, env);
     }
+
+    if (exp[0] === '++') {
+      const setExp = this._transformer.transformIncToSet(exp);
+
+      return this.eval(setExp, env);
+    }
+
+    // ------------------------------------------------------------
+    // Decrement: (-- foo)
+    //
+    // Syntactic sugar for: (set foo (- foo 1))
 
     // ------------------------------------------------------------
     // Lambda function: (lambda (x) (* x x))
