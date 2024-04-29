@@ -21,7 +21,7 @@ class Transformer {
 
     let current = ifExp;
 
-    for (let i = 0; i < cases.lenth - 1; i += 1) {
+    for (let i = 0; i < cases.length - 1; i += 1) {
       const [currentCond, currentBlock] = cases[i];
 
       current[1] = currentCond;

@@ -10,6 +10,7 @@ const tests = [
   require('./built-in-function-test'),
   require('./user-defined-functions-test'),
   require('./lambda-function-test'),
+  require('./switch-test'),
 ];
 
 // ------------------------------------------------------------
