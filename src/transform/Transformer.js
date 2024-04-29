@@ -38,6 +38,16 @@ class Transformer {
     return ifExp;
   }
 
+  transformForToWhile(whileExp) {
+    // For-loop: (for init condition modifier body)
+    //
+    // Syntactic sugar for: (begin init (while condition (begin body modifier)))
+
+    const [_tag, init, condition, modifier, body] = whileExp;
+
+    return [['begin', [init, ['while', condition, ['begin', body, modifier]]]]];
+  }
+
   transformIncToSet(setExp) {
     const [_tag, name] = setExp;
     return ['set', name, ['+', name, 1]];

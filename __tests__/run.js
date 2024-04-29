@@ -13,6 +13,7 @@ const tests = [
   require('./switch-test'),
   require('./increment-test'),
   require('./decrement-test'),
+  require('./for-test'),
 ];
 
 // ------------------------------------------------------------

@@ -69,19 +69,6 @@ class Eva {
     }
 
     // ------------------------------------------------------------
-    // while-expression:
-    if (exp[0] === 'while') {
-      const [_tag, condition, body] = exp;
-      let result;
-
-      while (this.eval(condition, env)) {
-        result = this.eval(body, env);
-      }
-
-      return result;
-    }
-
-    // ------------------------------------------------------------
     // Function declaration: (def square (x) (* x x))
     //
     // Syntactic sugar for: (var square (lambda (x) (* x x)))
@@ -98,12 +85,41 @@ class Eva {
     // Switch-expression: (switch (cond1, block1) ... )
     //
     // Syntactic sugar for nested if-expressions
-
+    
     if (exp[0] === 'switch') {
       const ifExp = this._transformer.transformSwitchToIf(exp);
 
       return this.eval(ifExp, env);
     }
+
+    // ------------------------------------------------------------
+    // while-expression:
+    if (exp[0] === 'while') {
+      const [_tag, condition, body] = exp;
+      let result;
+
+      while (this.eval(condition, env)) {
+        result = this.eval(body, env);
+      }
+
+      return result;
+    }
+
+    // ------------------------------------------------------------
+    // For-loop: (for init condition modifier body)
+    //
+    // Syntactic sugar for: (begin init (while condition (begin body modifier)))
+
+    if (exp[0] === 'for') {
+      const whileExp = this._transformer.transformForToWhile(exp);
+
+      return this.eval(whileExp, env);
+    }
+
+    // ------------------------------------------------------------
+    // Increment: (++ foo)
+    //
+    // Syntactic sugar for: (set foo (+ foo 1))
 
     if (exp[0] === '++') {
       const setExp = this._transformer.transformIncToSet(exp);
