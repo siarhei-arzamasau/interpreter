@@ -42,6 +42,11 @@ class Transformer {
     const [_tag, name] = setExp;
     return ['set', name, ['+', name, 1]];
   }
+
+  transformDecToSet(setExp) {
+    const [_tag, name] = setExp;
+    return ['set', name, ['-', name, 1]];
+  }
 }
 
 module.exports = Transformer;

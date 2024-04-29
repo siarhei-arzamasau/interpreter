@@ -116,6 +116,12 @@ class Eva {
     //
     // Syntactic sugar for: (set foo (- foo 1))
 
+    if (exp[0] === '--') {
+      const setExp = this._transformer.transformDecToSet(exp);
+
+      return this.eval(setExp, env);
+    }
+
     // ------------------------------------------------------------
     // Lambda function: (lambda (x) (* x x))
 
