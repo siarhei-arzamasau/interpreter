@@ -1,4 +1,5 @@
 const Environment = require('./Environment');
+const Transformer = require('./transform/Transformer');
 
 /**
  * Eva interpreter.
@@ -10,6 +11,7 @@ class Eva {
    */
   constructor(global = GlobalEnvironment) {
     this.global = global;
+    this._transformer = new Transformer();
   }
 
   /**
@@ -85,11 +87,9 @@ class Eva {
     // Syntactic sugar for: (var square (lambda (x) (* x x)))
 
     if (exp[0] === 'def') {
-      const [_tag, name, params, body] = exp;
-
       // JIT-transpile to a variable declaration
 
-      const varExp = ['var', name, ['lambda', params, body]];
+      const varExp = this._transformer.transformDefToLambda(exp);
 
       return this.eval(varExp, env);
     }
