@@ -15,6 +15,13 @@ class Eva {
   }
 
   /**
+   * Evaluates global code wrapping into a block.
+   */
+  evalGlobal(expressions) {
+    return this._evalBlock(['block', expressions], this.global);
+  }
+
+  /**
    * Evaluates an expression in the given environment.
    */
   eval(exp, env = this.global) {
