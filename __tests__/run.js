@@ -19,6 +19,8 @@ const tests = [
   require('./decrement-via-variable-test'),
   require('./for-test'),
   require('./class-test'),
+  require('./module-test'),
+  require('./import-test'),
 ];
 
 // ------------------------------------------------------------

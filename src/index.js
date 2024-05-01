@@ -1,5 +1,14 @@
+/**
+ * Eva programming language.
+ *
+ * Ast interpreter.
+ */
+
 const Environment = require('./Environment');
 const Transformer = require('./transform/Transformer');
+const evaParser = require('./parser/evaParser');
+
+const fs = require('fs');
 
 /**
  * Eva interpreter.
@@ -17,8 +26,8 @@ class Eva {
   /**
    * Evaluates global code wrapping into a block.
    */
-  evalGlobal(expressions) {
-    return this._evalBlock(['block', expressions], this.global);
+  evalGlobal(exp) {
+    return this._evalBody(exp, this.global);
   }
 
   /**
@@ -250,6 +259,34 @@ class Eva {
       const instanceEnv = this.eval(instance, env);
 
       return instanceEnv.lookup(name);
+    }
+
+    // ------------------------------------------------------------
+    // Module declaration: (module <body>)
+
+    if (exp[0] === 'module') {
+      const [_tag, name, body] = exp;
+
+      const moduleEnv = new Environment({}, env);
+
+      this._evalBody(body, moduleEnv);
+
+      return env.define(name, moduleEnv);
+    }
+
+    // ------------------------------------------------------------
+    // Module import: (import <name>)
+
+    if (exp[0] === 'import') {
+      const [_tag, name] = exp;
+
+      const moduleSrc = fs.readFileSync(`${__dirname}/modules/${name}.eva`, 'utf-8');
+
+      const body = evaParser.parse(`(begin ${moduleSrc})`);
+
+      const moduleExp = ['module', name, body];
+
+      return this.eval(moduleExp, this.global);
     }
 
     // ------------------------------------------------------------
