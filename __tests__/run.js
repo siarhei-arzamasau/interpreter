@@ -1,4 +1,6 @@
 const Eva = require('../src/index');
+// const Environment = require('../src/Environment');
+const evaParser = require('../src/parser/evaParser');
 
 const tests = [
   require('./self-eval-test'),
@@ -16,6 +18,7 @@ const tests = [
   require('./decrement-test'),
   require('./decrement-via-variable-test'),
   require('./for-test'),
+  require('./class-test'),
 ];
 
 // ------------------------------------------------------------
@@ -23,8 +26,11 @@ const tests = [
 
 const eva = new Eva();
 
-tests.forEach((test) => test(eva));
+function exec(code) {
+  const exp = evaParser.parse(code);
+  return eva.eval(exp);
+}
 
-// eva.eval(['print', '"Hello"', '"World!"']);
+tests.forEach((test) => test(eva));
 
 console.log('\x1b[32m', 'All assertions passed!');
