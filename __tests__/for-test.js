@@ -16,7 +16,7 @@ module.exports = (eva) => {
       (for (var x 10)
            (> x 0)
            (-- x)
-           (print x)
+           x // (print x)
       )
     )
   `,

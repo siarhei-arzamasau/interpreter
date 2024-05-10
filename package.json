@@ -1,8 +1,8 @@
 {
   "name": "interpreter",
   "version": "1.0.0",
-  "description": "Studying algorithms and data structures",
-  "main": "index.js",
+  "description": "Eva interpreter",
+  "main": "src/index.js",
   "scripts": {
     "dev": "node ./src/index.js",
     "test": "node ./__tests__/run.js",

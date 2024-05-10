@@ -15,7 +15,7 @@ Implementation of Eva based on **Backus–Naur form**.
 Run `npm ci`
 
 ## Usage
-The Eva interpreter might eval the code from the command line:
+The Eva interpreter might execute the code from the command line:
 
 `npm run eval '(print (+ 2 2))'` would print in console `4`
 
