@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node ./src/index.js",
     "test": "node ./__tests__/run.js",
-    "parser": "syntax-cli --grammar parser/eva-grammar.bnf --mode LALR1 --output src/parser/evaParser.js"
+    "parser": "syntax-cli --grammar parser/eva-grammar.bnf --mode LALR1 --output src/parser/evaParser.js",
+    "eval": "./bin/eva -e",
+    "eval-src": "./bin/eva -f"
   },
   "keywords": [],
   "author": "",
