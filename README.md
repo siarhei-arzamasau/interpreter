@@ -21,7 +21,7 @@ The Eva interpreter might eval the code from the command line:
 
 `npm run eval '(print ((lambda (x) (* x x))5))'` would print in console `25`
 
-Also your can execute code from source file:
+Also, you can execute code from the source file:
 
 `npm run eval-src ./bin/test.eva`
 
